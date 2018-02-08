@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>StripeFullCc</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', "https://js.stripe.com/v2/", "https://js.stripe.com/v3/",  'data-turbolinks-track': 'reload' %>
+    <%= tag :meta, name: "stripe-public-key", content: Rails.application.secrets.stripe_public_key %>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <%= link_to "Store", root_path, class: "navbar-brand" %>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <%= link_to "Products", products_path, class: "nav-link" %>
+          </li>
+          <% if user_signed_in? %>
+            <li class="nav-item">
+              <%= link_to "Sign-out", destroy_user_session_path, method: :delete, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Account", edit_user_registration_path, class: "nav-link" %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to "Sign-up", new_user_registration_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Sign-in", new_user_session_path, class: "nav-link" %>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+    </nav>
+
+    <% flash.each do |k, v| %>
+      <div class="<%= flash_class(k) %>">
+        <%= v %>
+      </div>
+    <% end %>
+
+    <div class="container">
+
+
+      <%= yield %>
+    </div>
+
+  </body>
+</html>
