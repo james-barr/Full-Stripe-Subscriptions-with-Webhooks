@@ -44,16 +44,20 @@ document.addEventListener("turbolinks:load", function() {
     });
   });
 
-  $(".show-payment-form").on("click", function(e) {
+  // allow payment to switch from paying with existing card, to paying with
+  // a new card
+  $(".show-new-payment-form").on("click", function(e) {
     e.preventDefault();
     $("#existing-card").hide();
-    $("#payment-form").removeAttr("style")
+    $("#payment-form").removeAttr("style");
   });
 
+  // allow payment to switch from paying with a new card, to paying with
+  // an existing card
   $(".show-existing-card").on("click", function(e) {
     e.preventDefault();
     $("#payment-form").hide();
-    $("#existing-card").removeAttr("style")
+    $("#existing-card").show();
   });
 
 

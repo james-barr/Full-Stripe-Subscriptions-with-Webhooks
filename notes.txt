@@ -1,0 +1,14 @@
+Stripe::Customer.all   ---- Pulls all our customers
+
+
+Stripe::Customer.retrieve(stripe_id) ----- Retrieves a customer from Stripe matching the passed argument stripe_id (the stripe ID we have for them in our system)
+
+
+
+Stripe::Customer.create(email: email) ----- Creates a new customer in Stripe's db with the stripe email equal to the user's email we pass in the email argument
+
+
+e = Stripe::Event.retrieve("evt_1BvPCcIANPWklPk8EAUYSBnO") ----- Creates a new object, 'e', and assigns it the webhooks retrieval of the event we passed as an argument
+
+
+Webhooks::ChargeSucceeded.new.call(e) ----- sends the object 'e', which has already been assigned a successful Stripe charge to the new method in the ChargeSucceded class, which lives in the Webhooks module that I created under app/models

@@ -3,7 +3,32 @@
     <div class="col-sm-12">
       <h1>Subscribe</h1>
 
-      <%= form_tag subscription_path, method: :post, id: "payment-form" do |form | %>
+      <% if current_user.card_last4 %>
+        <%= form_tag subscription_path, method: :post, id: "existing-card" do |form | %>
+          <p>
+            Pay with existing card:
+          </p>
+          <div>
+            <p>
+              <strong>Card on file:</strong>
+              <%= current_user.card_brand %> (**** **** **** <%= current_user.card_last4 %>)
+            </p>
+            <p>
+              <strong>Expiration:</strong>
+              <%= current_user.card_exp_month %> / <%= current_user.card_exp_year %>
+            </p>
+          </div>
+          <p>
+            <%= link_to "Add a new card", "#", class: "show-new-payment-form" %>
+          </p>
+
+          <%= hidden_field_tag :plan, params[:plan] %>
+
+          <button class="btn btn-outline-primary">Subscribe</button>
+        <% end %>
+      <% end %>
+
+      <%= form_tag subscription_path, method: :post, id: "payment-form", style: (current_user.card_last4? ? "display:none" : nil) do |form | %>
         <div class="form-row">
           <label for="card-element">
             Credit or debit card
@@ -15,7 +40,15 @@
           <div id="card-errors" role="alert"></div>
         </div>
         <br />
-        <button class="btn btn-outline-primary">Update Card</button>
+
+        <% if current_user.card_last4? %>
+        <p>
+          <%= link_to "Use existing card", "#", class: "show-existing-card" %>
+        </p>
+        <% end %>
+
+        <button class="btn btn-outline-primary">Subscribe</button>
+
         <%= hidden_field_tag :plan, params[:plan] %>
       <% end %>
 
